@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"jsx": "react-jsx",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"noEmitOnError": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"preserveConstEnums": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"strict": true,
+		"target": "es6",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	}
+}
