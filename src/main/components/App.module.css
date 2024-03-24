@@ -1,0 +1,19 @@
+.container {
+	height: 100vh;
+}
+
+.content {
+	height: 100%;
+	padding: 20px;
+	text-align: center;
+
+	p {
+		margin: 0;
+	}
+}
+
+.panelNumber {
+	color: rgba(0, 0, 0, 0.1);
+	font-size: 60px;
+	line-height: 60px;
+}

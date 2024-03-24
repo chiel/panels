@@ -1,0 +1,16 @@
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	font:
+		normal 400 16px/24px 'Roboto Condensed',
+		sans-serif;
+}
