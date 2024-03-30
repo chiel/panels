@@ -8,7 +8,7 @@ const panelsConfig: PanelsConfig = [
 	{ initialWidth: 250, minWidth: 150, maxWidth: 250 },
 	{ initialWidth: 200, minWidth: 150, maxWidth: 250 },
 	{ minWidth: 100 },
-	{ minWidth: 100, maxWidth: 0.4 },
+	{ minWidth: 100, maxWidth: 0.25 },
 ];
 
 export default function App() {

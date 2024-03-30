@@ -24,10 +24,9 @@ export default function finaliseConfig(
 		if (initialWidth > 0 && initialWidth < 1) {
 			initialWidth = availableWidth * initialWidth;
 		}
-		if (initialWidth === Infinity && minWidth > 0 && maxWidth < Infinity) {
-			initialWidth = minWidth + (maxWidth - minWidth) / 2;
+		if (initialWidth !== Infinity) {
+			initialWidth = Math.floor(clamp(initialWidth, minWidth, maxWidth));
 		}
-		initialWidth = Math.floor(clamp(initialWidth, minWidth, maxWidth));
 
 		return { initialWidth, maxWidth, minWidth };
 	});
