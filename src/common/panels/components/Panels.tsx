@@ -1,5 +1,6 @@
 import { Children, cloneElement, ReactElement } from 'react';
 
+import Handle from './Handle';
 import css from './Panels.module.css';
 
 type Props = {
@@ -12,11 +13,12 @@ export default function Panels({ children, widths }: Props) {
 
 	return (
 		<div className={css.container} style={{ width: totalWidth }}>
-			{Children.map(children, (child, index) =>
-				cloneElement(child, {
-					width: widths[index],
-				}),
-			)}
+			{Children.map(children, (child, index) => (
+				<>
+					{index > 0 && <Handle />}
+					{cloneElement(child, { width: widths[index] })}
+				</>
+			))}
 		</div>
 	);
 }

@@ -21,37 +21,25 @@ export default function App() {
 		<div className={css.container}>
 			<Panels {...panelsProps}>
 				<Panel>
-					<div
-						className={css.content}
-						style={{ background: 'rgba(255, 0, 0, .1)' }}
-					>
+					<div className={css.content}>
 						<p className={css.panelNumber}>1</p>
 						<p>{widths[0]}</p>
 					</div>
 				</Panel>
 				<Panel>
-					<div
-						className={css.content}
-						style={{ background: 'rgba(0, 255, 0, .1)' }}
-					>
+					<div className={css.content}>
 						<p className={css.panelNumber}>2</p>
 						<p>{widths[1]}</p>
 					</div>
 				</Panel>
 				<Panel>
-					<div
-						className={css.content}
-						style={{ background: 'rgba(0, 0, 255, .1)' }}
-					>
+					<div className={css.content}>
 						<p className={css.panelNumber}>3</p>
 						<p>{widths[2]}</p>
 					</div>
 				</Panel>
 				<Panel>
-					<div
-						className={css.content}
-						style={{ background: 'rgba(255, 128, 128, .1)' }}
-					>
+					<div className={css.content}>
 						<p className={css.panelNumber}>4</p>
 						<p>{widths[3]}</p>
 					</div>

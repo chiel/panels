@@ -1,0 +1,22 @@
+.handle {
+	flex-shrink: 0;
+	position: relative;
+	z-index: 1;
+	width: 10px;
+	margin: 0 -5px;
+	cursor: grab;
+
+	&::before {
+		content: '';
+		display: block;
+		width: 1px;
+		height: 100%;
+		margin: 0 auto;
+		background: #aaa;
+		transition: background 0.2s ease-out;
+	}
+
+	&:hover::before {
+		background: rgba(127, 127, 255, 1);
+	}
+}
