@@ -4,7 +4,7 @@
 
 .content {
 	height: 100%;
-	padding: 20px;
+	padding: 80px 20px 20px;
 	text-align: center;
 
 	p {
@@ -13,7 +13,7 @@
 }
 
 .panelNumber {
-	color: rgba(0, 0, 0, 0.1);
+	color: rgba(255, 255, 255, 0.25);
 	font-size: 60px;
 	line-height: 60px;
 }

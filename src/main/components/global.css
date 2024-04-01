@@ -10,6 +10,8 @@ html {
 
 body {
 	margin: 0;
+	background: #191919;
+	color: #efefef;
 	font:
 		normal 400 16px/24px 'Roboto Condensed',
 		sans-serif;
