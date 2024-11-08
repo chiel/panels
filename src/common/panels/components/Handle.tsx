@@ -1,9 +1,9 @@
-import { MouseEvent } from 'react';
+import { OnResizeStart } from '../types';
 
 import css from './Handle.module.css';
 
 type Props = {
-	onResizeStart: (e: MouseEvent) => void;
+	onResizeStart: OnResizeStart;
 };
 
 export default function Handle({ onResizeStart }: Props) {

@@ -1,31 +1,25 @@
-import { Children, cloneElement, MouseEvent, ReactElement } from 'react';
+import type { ReactNode } from 'react';
+import { useState } from 'react';
 
-import Handle from './Handle';
+import Context from '../Context';
+import usePanels from '../hooks/usePanels';
+
 import css from './Panels.module.css';
 
 type Props = {
-	children: ReactElement | ReactElement[];
-	onResizeStartHandlers: ((e: MouseEvent) => void)[];
-	widths: number[];
+	children: ReactNode;
+	size: number;
 };
 
-export default function Panels({
-	children,
-	onResizeStartHandlers,
-	widths,
-}: Props) {
-	const totalWidth = widths.reduce((acc, w) => acc + w, 0);
+export default function Panels({ children, size }: Props) {
+	const [container, setContainer] = useState<HTMLDivElement | null>(null);
+	const ctx = usePanels(container, size);
 
 	return (
-		<div className={css.container} style={{ width: totalWidth }}>
-			{Children.map(children, (child, index) => (
-				<>
-					{index > 0 && (
-						<Handle onResizeStart={onResizeStartHandlers[index - 1]} />
-					)}
-					{cloneElement(child, { width: widths[index] })}
-				</>
-			))}
-		</div>
+		<Context.Provider value={ctx}>
+			<div ref={setContainer} className={css.container}>
+				{children}
+			</div>
+		</Context.Provider>
 	);
 }

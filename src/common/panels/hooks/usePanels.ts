@@ -1,48 +1,88 @@
-import { useEffect, useMemo } from 'react';
+// import type { MouseEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { PanelsConfig } from '../types';
-import finaliseConfig from '../utils/finaliseConfig';
-import mutateWidths from '../utils/mutateWidths';
+import type { Listener, PanelConfig } from '../types';
 
 import useDelta from './useDelta';
 import useDrag from './useDrag';
-import useWidths from './useWidths';
+import useSizes from './useSizes';
+
+enum Orientation {
+	Horizontal = 'HORIZONTAL',
+	Vertical = 'VERTICAL',
+}
 
 export default function usePanels(
-	availableWidth: number,
-	panelsConfig: PanelsConfig,
+	container: HTMLDivElement | null,
+	availableSize: number,
+	orientation: Orientation = Orientation.Horizontal,
 ) {
-	const finalPanelsConfig = useMemo(
-		() => finaliseConfig(availableWidth, panelsConfig),
-		[availableWidth, panelsConfig],
-	);
+	if (orientation === Orientation.Vertical) {
+		throw new Error('Vertical orientation is not yet supported');
+	}
 
-	const [widths, setWidths] = useWidths(availableWidth, finalPanelsConfig);
-	const { createOnResizeStart, drag } = useDrag(widths);
+	const [panels, setPanels] = useState<
+		[HTMLDivElement, PanelConfig, Listener][]
+	>([]);
+	const orderedPanels = useMemo(
+		() =>
+			!container
+				? []
+				: ([...container.children]
+						.map((child) => panels.find(([pc]) => pc === child))
+						.filter((panelConfig) => !!panelConfig) as typeof panels),
+		[container, panels],
+	);
+	const configs = useMemo(
+		() => orderedPanels.map(([, config]) => config),
+		[orderedPanels],
+	);
+	const [sizes] = useSizes(availableSize, configs);
+	const { createOnResizeStart, drag } = useDrag(sizes);
 	const delta = useDelta(drag);
 
 	const onResizeStartHandlers = useMemo(
 		() =>
-			new Array(finalPanelsConfig.length - 1)
-				.fill(0)
-				.map((_config, i) => createOnResizeStart(i)),
-		[createOnResizeStart, finalPanelsConfig],
+			sizes.length > 0
+				? new Array(sizes.length - 1)
+						.fill(0)
+						.map((_n, i) => createOnResizeStart(i))
+				: [],
+		[createOnResizeStart, sizes],
 	);
 
 	useEffect(() => {
-		if (delta === null || drag === null) return;
+		if (drag === null || delta === null) return;
 
-		setWidths(
-			mutateWidths({
-				delta,
-				drag,
-				panelsConfig: finalPanelsConfig,
-			}),
-		);
-	}, [delta, drag, finalPanelsConfig, setWidths]);
+		console.log('COMPUTE STUFF', { availableSize, delta, drag, sizes });
+	}, [availableSize, drag, delta, sizes]);
 
-	return useMemo(
-		() => ({ onResizeStartHandlers, widths }),
-		[onResizeStartHandlers, widths],
+	useEffect(() => {
+		orderedPanels.forEach(([, , listener], i) => {
+			// console.log('PROCESS', sizes[i], listener);
+			listener(sizes[i], onResizeStartHandlers[i] || null);
+		});
+	}, [availableSize, onResizeStartHandlers, orderedPanels, sizes]);
+
+	const addPanel = useCallback(
+		(
+			panelContainer: HTMLDivElement,
+			config: PanelConfig,
+			listener: Listener,
+		) => {
+			setPanels((currentPanels) => [
+				...currentPanels,
+				[panelContainer, config, listener],
+			]);
+
+			return () => {
+				setPanels((currentPanels) =>
+					currentPanels.filter(([pc]) => pc !== panelContainer),
+				);
+			};
+		},
+		[],
 	);
+
+	return useMemo(() => ({ addPanel }), [addPanel]);
 }

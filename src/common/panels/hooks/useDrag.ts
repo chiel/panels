@@ -3,10 +3,10 @@ import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
 export type Drag = {
 	handle: number;
 	position: { x: number; y: number };
-	widths: number[];
+	sizes: number[];
 };
 
-export default function useDrag(widths: number[]) {
+export default function useDrag(sizes: number[]) {
 	const [drag, setDrag] = useState<Drag | null>(null);
 
 	const createOnResizeStart = useCallback(
@@ -15,10 +15,10 @@ export default function useDrag(widths: number[]) {
 			setDrag({
 				handle: index,
 				position: { x: e.clientX, y: e.clientY },
-				widths,
+				sizes,
 			});
 		},
-		[widths],
+		[sizes],
 	);
 
 	useEffect(() => {

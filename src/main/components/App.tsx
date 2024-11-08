@@ -1,49 +1,42 @@
-import { useViewportSize } from '@/common/hooks';
-import { Panel, Panels, usePanels } from '@/common/panels';
-import type { PanelsConfig } from '@/common/panels';
+import { Route, Switch } from 'wouter';
 
+import { useViewportSize } from '@/common/hooks';
+import { Panel, Panels } from '@/common/panels';
+// import type { PanelsConfig } from '@/common/panels';
+import { Home } from '@/home';
+import { Tickets } from '@/tickets';
+
+import Navigation from './Navigation';
 import css from './App.module.css';
 
-const panelsConfig: PanelsConfig = [
-	{ initialWidth: 250, minWidth: 150, maxWidth: 250 },
-	{ initialWidth: 200, minWidth: 150, maxWidth: 250 },
-	{ minWidth: 100 },
-	{ minWidth: 100, maxWidth: 0.25 },
-];
+const navigationPanelConfig = {
+	minSize: 100,
+	maxSize: 100,
+	initialSize: 100,
+};
 
 export default function App() {
 	const [width] = useViewportSize();
-	const panelsProps = usePanels(width, panelsConfig);
-
-	const { widths } = panelsProps;
 
 	return (
 		<div className={css.container}>
-			<Panels {...panelsProps}>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>1</p>
-						<p>{widths[0]}</p>
-					</div>
+			<Panels size={width}>
+				<Panel key="global-nav" config={navigationPanelConfig}>
+					<Navigation />
 				</Panel>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>2</p>
-						<p>{widths[1]}</p>
-					</div>
-				</Panel>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>3</p>
-						<p>{widths[2]}</p>
-					</div>
-				</Panel>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>4</p>
-						<p>{widths[3]}</p>
-					</div>
-				</Panel>
+				<Switch>
+					<Route path="/">
+						<Home />
+					</Route>
+					<Route path="/tickets" nest>
+						<Tickets />
+					</Route>
+					{/*
+					<Route path="/settings">
+						<SettingsRoutes />
+					</Route>
+					*/}
+				</Switch>
 			</Panels>
 		</div>
 	);

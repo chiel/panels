@@ -1,11 +1,25 @@
-export type FinalPanelConfig = {
-	initialWidth: number;
-	minWidth: number;
-	maxWidth: number;
+import type { MouseEvent } from 'react';
+
+export type OnResizeStart = (e: MouseEvent) => void;
+export type Listener = (
+	newSize: number,
+	onResizeStart: OnResizeStart | null,
+) => void;
+export type Unsubscribe = () => void;
+
+export type Drag = {
+	handle: number;
+	position: { x: number; y: number };
+	sizes: number[];
 };
 
-export type FinalPanelsConfig = FinalPanelConfig[];
+export type PanelClient = {
+	subscribe: (listener: Listener) => Unsubscribe;
+	unmount: () => void;
+};
 
-export type PanelConfig = Partial<FinalPanelConfig>;
-
-export type PanelsConfig = PanelConfig[];
+export type PanelConfig = {
+	initialSize: number;
+	maxSize: number;
+	minSize: number;
+};
