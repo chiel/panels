@@ -1,19 +1,11 @@
 import { Route, Switch } from 'wouter';
 
-import { useViewportSize } from '@/common/hooks';
-import { Panel, Panels } from '@/common/panels';
-// import type { PanelsConfig } from '@/common/panels';
-import { Home } from '@/home';
-import { Tickets } from '@/tickets';
+import { useViewportSize } from '@/core/hooks';
+import { GlobalNavigationPanel } from '@/core/navigation';
+import { Panels } from '@/core/panels';
+import { Tickets } from '@/tickets/main/pages';
 
-import Navigation from './Navigation';
 import css from './App.module.css';
-
-const navigationPanelConfig = {
-	minSize: 100,
-	maxSize: 100,
-	initialSize: 100,
-};
 
 export default function App() {
 	const [width] = useViewportSize();
@@ -21,21 +13,17 @@ export default function App() {
 	return (
 		<div className={css.container}>
 			<Panels size={width}>
-				<Panel key="global-nav" config={navigationPanelConfig}>
-					<Navigation />
-				</Panel>
+				<GlobalNavigationPanel />
 				<Switch>
 					<Route path="/">
-						<Home />
+						<p>home</p>
 					</Route>
 					<Route path="/tickets" nest>
 						<Tickets />
 					</Route>
-					{/*
 					<Route path="/settings">
-						<SettingsRoutes />
+						<p>settings</p>
 					</Route>
-					*/}
 				</Switch>
 			</Panels>
 		</div>

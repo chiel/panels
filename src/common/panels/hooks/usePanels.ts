@@ -21,65 +21,66 @@ export default function usePanels(
 		throw new Error('Vertical orientation is not yet supported');
 	}
 
-	const [panels, setPanels] = useState<
-		[HTMLDivElement, PanelConfig, Listener][]
-	>([]);
-	const orderedPanels = useMemo(
-		() =>
-			!container
-				? []
-				: ([...container.children]
-						.map((child) => panels.find(([pc]) => pc === child))
-						.filter((panelConfig) => !!panelConfig) as typeof panels),
-		[container, panels],
-	);
-	const configs = useMemo(
-		() => orderedPanels.map(([, config]) => config),
-		[orderedPanels],
-	);
-	const [sizes] = useSizes(availableSize, configs);
-	const { createOnResizeStart, drag } = useDrag(sizes);
-	const delta = useDelta(drag);
+	// const [panels, setPanels] = useState<
+	// 	[HTMLDivElement, PanelConfig, Listener][]
+	// >([]);
+	// const orderedPanels = useMemo(
+	// 	() =>
+	// 		!container
+	// 			? []
+	// 			: ([...container.children]
+	// 					.map((child) => panels.find(([pc]) => pc === child))
+	// 					.filter((panelConfig) => !!panelConfig) as typeof panels),
+	// 	[container, panels],
+	// );
+	// const configs = useMemo(
+	// 	() => orderedPanels.map(([, config]) => config),
+	// 	[orderedPanels],
+	// );
+	// const [sizes] = useSizes(availableSize, configs);
+	// const { createOnResizeStart, drag } = useDrag(sizes);
+	// const delta = useDelta(drag);
 
-	const onResizeStartHandlers = useMemo(
-		() =>
-			sizes.length > 0
-				? new Array(sizes.length - 1)
-						.fill(0)
-						.map((_n, i) => createOnResizeStart(i))
-				: [],
-		[createOnResizeStart, sizes],
-	);
+	// const onResizeStartHandlers = useMemo(
+	// 	() =>
+	// 		sizes.length > 0
+	// 			? new Array(sizes.length - 1)
+	// 					.fill(0)
+	// 					.map((_n, i) => createOnResizeStart(i))
+	// 			: [],
+	// 	[createOnResizeStart, sizes],
+	// );
 
-	useEffect(() => {
-		if (drag === null || delta === null) return;
+	// useEffect(() => {
+	// 	if (drag === null || delta === null) return;
 
-		console.log('COMPUTE STUFF', { availableSize, delta, drag, sizes });
-	}, [availableSize, drag, delta, sizes]);
+	// 	console.log('COMPUTE STUFF', { availableSize, delta, drag, sizes });
+	// }, [availableSize, drag, delta, sizes]);
 
-	useEffect(() => {
-		orderedPanels.forEach(([, , listener], i) => {
-			// console.log('PROCESS', sizes[i], listener);
-			listener(sizes[i], onResizeStartHandlers[i] || null);
-		});
-	}, [availableSize, onResizeStartHandlers, orderedPanels, sizes]);
+	// useEffect(() => {
+	// 	orderedPanels.forEach(([, , listener], i) => {
+	// 		// console.log('PROCESS', sizes[i], listener);
+	// 		listener(sizes[i], onResizeStartHandlers[i] || null);
+	// 	});
+	// }, [availableSize, onResizeStartHandlers, orderedPanels, sizes]);
 
 	const addPanel = useCallback(
 		(
-			panelContainer: HTMLDivElement,
+			name: string,
 			config: PanelConfig,
-			listener: Listener,
+			// listener: Listener,
 		) => {
-			setPanels((currentPanels) => [
-				...currentPanels,
-				[panelContainer, config, listener],
-			]);
+			console.log('add panel', name, config);
+			// setPanels((currentPanels) => [
+			// 	...currentPanels,
+			// 	[panelContainer, config, listener],
+			// ]);
 
-			return () => {
-				setPanels((currentPanels) =>
-					currentPanels.filter(([pc]) => pc !== panelContainer),
-				);
-			};
+			// return () => {
+			// 	setPanels((currentPanels) =>
+			// 		currentPanels.filter(([pc]) => pc !== panelContainer),
+			// 	);
+			// };
 		},
 		[],
 	);

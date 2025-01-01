@@ -1,0 +1,28 @@
+.list {
+	height: 100%;
+	border-right: 1px solid #333;
+}
+
+.header {
+	padding: 12px 16px;
+	border-bottom: 1px solid #333;
+}
+
+.content {
+	padding: 0 8px 8px;
+}
+
+.ticket {
+	display: block;
+	margin: 8px 0 0;
+	padding: 12px 16px;
+	border-radius: 4px;
+	background: #292929;
+	color: #eee;
+	text-decoration: none;
+	transition: background 0.2s ease-out;
+
+	&:hover {
+		background: #333;
+	}
+}
