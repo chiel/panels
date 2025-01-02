@@ -1,5 +1,13 @@
 .panelGroup {
-	margin: 16px;
+	overflow: hidden;
+	margin: 8px 8px 8px 0;
 	border-radius: 10px;
-	box-shadow: 0 2px 8px #00000099;
+	border: 1px solid #eee;
+	background: #f9f9f9;
+	box-shadow:
+		3px 3px 10px 0px #0000000d,
+		12px 13px 18px 0px #0000000a,
+		27px 30px 24px 0px #00000008,
+		48px 53px 28px 0px #00000003,
+		74px 82px 31px 0px #00000000;
 }

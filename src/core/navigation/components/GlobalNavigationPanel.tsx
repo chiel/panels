@@ -3,9 +3,9 @@ import { Panel } from '@/core/panels';
 import GlobalNavigation from './GlobalNavigation';
 
 const panelConfig = {
-	defaultSize: 49,
-	minSize: 49,
-	maxSize: 49,
+	defaultSize: 48,
+	minSize: 48,
+	maxSize: 48,
 };
 
 export default function GlobalNavigationPanel() {

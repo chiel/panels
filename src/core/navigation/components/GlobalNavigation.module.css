@@ -5,8 +5,6 @@
 	width: 48px;
 	height: 100%;
 	padding: 16px 8px;
-	border-right: 1px solid #333;
-	background: #191919;
 }
 
 .items {
@@ -18,5 +16,5 @@
 .separator {
 	margin: 16px 0;
 	border: 0;
-	border-top: 1px solid #333;
+	border-top: 1px solid #eee;
 }

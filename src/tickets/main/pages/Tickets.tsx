@@ -10,7 +10,7 @@ export default function Tickets() {
 	return (
 		<DTPProvider>
 			<TicketsNavbarPanel />
-			<PanelGroup className={css.panelGroup} subtractSize={32}>
+			<PanelGroup className={css.panelGroup} subtractSize={10}>
 				<TicketsLayout />
 			</PanelGroup>
 		</DTPProvider>
