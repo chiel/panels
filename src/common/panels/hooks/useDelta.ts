@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { Drag } from './useDrag';
 
 export default function useDelta(drag: Drag | null) {
 	const [delta, setDelta] = useState<number | null>(null);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (!drag) {
 			setDelta(null);
 			return;

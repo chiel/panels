@@ -1,11 +1,9 @@
-import { MouseEvent } from 'react';
-
 import css from './Handle.module.css';
 
 type Props = {
-	onResizeStart: (e: MouseEvent) => void;
+	className?: string;
 };
 
-export default function Handle({ onResizeStart }: Props) {
-	return <div className={css.handle} onMouseDown={onResizeStart} />;
+export default function Handle({ className }: Props) {
+	return <div className={`${css.handle} ${className ?? ''}`} data-handle />;
 }

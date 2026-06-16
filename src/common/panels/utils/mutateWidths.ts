@@ -1,4 +1,4 @@
-import { Drag } from '../hooks/useDrag';
+import { Drag } from '../hooks/useDragOld';
 import { FinalPanelsConfig } from '../types';
 
 import clamp from './clamp';

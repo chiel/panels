@@ -1,28 +1,43 @@
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 export type Drag = {
-	handle: number;
+	handle: HTMLElement;
 	position: { x: number; y: number };
-	widths: number[];
+	sizes: Record<string, number>;
 };
 
-export default function useDrag(widths: number[]) {
+export default function useDrag(
+	container: HTMLDivElement | null,
+	sizes: Record<string, number>,
+) {
 	const [drag, setDrag] = useState<Drag | null>(null);
 
-	const createOnResizeStart = useCallback(
-		(index: number) => (e: MouseEvent) => {
+	useLayoutEffect(() => {
+		if (!container) return;
+
+		const onMouseDown = (e: MouseEvent) => {
+			if (!(e.target instanceof HTMLElement)) return;
+
+			const handle = e.target.closest('[data-handle]');
+			if (!handle || !(handle instanceof HTMLElement)) return;
+
 			e.preventDefault();
 			setDrag({
-				handle: index,
+				handle,
 				position: { x: e.clientX, y: e.clientY },
-				widths,
+				sizes,
 			});
-		},
-		[widths],
-	);
+		};
 
-	useEffect(() => {
+		container.addEventListener('mousedown', onMouseDown);
+		return () => container.removeEventListener('mousedown', onMouseDown);
+	}, [container, sizes]);
+
+	useLayoutEffect(() => {
 		if (!drag) return;
+
+		drag.handle.setAttribute('data-active', '');
+		document.body.style.cursor = 'ew-resize';
 
 		function handleMouseUp() {
 			setDrag(null);
@@ -31,12 +46,11 @@ export default function useDrag(widths: number[]) {
 		window.addEventListener('mouseup', handleMouseUp);
 
 		return () => {
+			drag.handle.removeAttribute('data-active');
+			document.body.style.cursor = '';
 			window.removeEventListener('mouseup', handleMouseUp);
 		};
 	}, [drag]);
 
-	return useMemo(
-		() => ({ createOnResizeStart, drag }),
-		[createOnResizeStart, drag],
-	);
+	return drag;
 }

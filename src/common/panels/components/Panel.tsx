@@ -1,16 +1,21 @@
-import { ReactNode, useMemo } from 'react';
+import type { ReactNode } from 'react';
+
+import usePanel from '../hooks/usePanel';
+import type { PanelConfig } from '../types';
 
 import css from './Panel.module.css';
 
 type Props = {
 	children: ReactNode;
-	width?: number;
+	config: PanelConfig;
+	name: string;
 };
 
-export default function Panel({ children, width }: Props) {
-	const style = useMemo(() => ({ width }), [width]);
+export default function Panel({ children, config, name }: Props) {
+	usePanel(name, config);
+
 	return (
-		<div className={css.container} style={style}>
+		<div className={css.container} data-panel-name={name}>
 			{children}
 		</div>
 	);

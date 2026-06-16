@@ -1,49 +1,68 @@
-import { useViewportSize } from '@/common/hooks';
-import { Panel, Panels, usePanels } from '@/common/panels';
-import type { PanelsConfig } from '@/common/panels';
+import { useState } from 'react';
+
+import { Panel, PanelGroup, Panels } from '@/common/panels';
+import Handle from '@/common/panels/components/Handle';
 
 import css from './App.module.css';
 
-const panelsConfig: PanelsConfig = [
-	{ initialWidth: 250, minWidth: 150, maxWidth: 250 },
-	{ initialWidth: 200, minWidth: 150, maxWidth: 250 },
-	{ minWidth: 100 },
-	{ minWidth: 100, maxWidth: 0.25 },
-];
-
 export default function App() {
-	const [width] = useViewportSize();
-	const panelsProps = usePanels(width, panelsConfig);
-
-	const { widths } = panelsProps;
+	const [showTwo, setShowTwo] = useState(true);
+	const [showFour, setShowFour] = useState(true);
 
 	return (
 		<div className={css.container}>
-			<Panels {...panelsProps}>
-				<Panel>
+			<Panels>
+				<Panel
+					name="one"
+					config={{ defaultSize: 250, minSize: 150, maxSize: 250 }}
+				>
 					<div className={css.content}>
 						<p className={css.panelNumber}>1</p>
-						<p>{widths[0]}</p>
+						<button
+							className={css.button}
+							onClick={() => setShowTwo((v) => !v)}
+						>
+							{showTwo ? 'Hide' : 'Show'} Panel 2
+						</button>
 					</div>
 				</Panel>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>2</p>
-						<p>{widths[1]}</p>
-					</div>
-				</Panel>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>3</p>
-						<p>{widths[2]}</p>
-					</div>
-				</Panel>
-				<Panel>
-					<div className={css.content}>
-						<p className={css.panelNumber}>4</p>
-						<p>{widths[3]}</p>
-					</div>
-				</Panel>
+				{showTwo && (
+					<>
+						<Handle />
+						<Panel
+							name="two"
+							config={{ defaultSize: 200, minSize: 150, maxSize: 250 }}
+						>
+							<div className={css.content}>
+								<p className={css.panelNumber}>2</p>
+							</div>
+						</Panel>
+					</>
+				)}
+				<Handle className={css.handle} />
+				<PanelGroup className={css.group} reduceSizeBy={12}>
+					<Panel name="three" config={{ minSize: 100 }}>
+						<div className={css.content}>
+							<p className={css.panelNumber}>3</p>
+							<button
+								className={css.button}
+								onClick={() => setShowFour((v) => !v)}
+							>
+								{showFour ? 'Hide' : 'Show'} Panel 4
+							</button>
+						</div>
+					</Panel>
+					{showFour && (
+						<>
+							<Handle />
+							<Panel name="four" config={{ minSize: 100, maxSize: 0.25 }}>
+								<div className={css.content}>
+									<p className={css.panelNumber}>4</p>
+								</div>
+							</Panel>
+						</>
+					)}
+				</PanelGroup>
 			</Panels>
 		</div>
 	);
